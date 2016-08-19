@@ -27,7 +27,7 @@ public class Syokuzai : MonoBehaviour {
 		m_BreakPower_Count += power;
 
 
-        GetComponent<Renderer>().material.SetFloat("_Hineri", m_BreakPower_Count * 10);
+        GetComponent<Renderer>().material.SetFloat("_Hineri", m_BreakPower_Count);
 
         if (m_BreakPower_Count >= m_BreakPower)
         {
