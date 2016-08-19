@@ -5,7 +5,12 @@ public class Syokuzai : MonoBehaviour {
 
     [SerializeField]
     GameObject m_Juice;
-    public int m_Type;
+
+	[SerializeField]
+	int m_Type;
+
+	[SerializeField]
+	Color m_JuiceColor;
 
     [SerializeField]
     float m_BreakPower;
@@ -26,8 +31,9 @@ public class Syokuzai : MonoBehaviour {
     {
 		m_BreakPower_Count += power;
 
+		float hineri = m_BreakPower_Count / m_BreakPower;
 
-        GetComponent<Renderer>().material.SetFloat("_Hineri", m_BreakPower_Count);
+		GetComponent<Renderer>().material.SetFloat("_Hineri", hineri * 10);
 
         if (m_BreakPower_Count >= m_BreakPower)
         {

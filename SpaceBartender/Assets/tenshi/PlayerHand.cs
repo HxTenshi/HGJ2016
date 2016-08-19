@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Squared.DualShock4;
 
 public class PlayerHand : MonoBehaviour {
 
@@ -24,6 +25,8 @@ public class PlayerHand : MonoBehaviour {
 	Vector2 m_lastv2;
 	Vector2 m_lastv3;
 
+	DualShock4 ds4;
+
     enum PlayerMode {
         SelectSyokuzai,
         SelectSyokuzai_Hineri_Move,
@@ -42,25 +45,46 @@ public class PlayerHand : MonoBehaviour {
 
 		m_lastv2 = new Vector2(0,1);
 		m_lastv3 = new Vector2(0,1);
+		var ds = DualShock4Info.Enumerate();
+		if(ds.Length>0)
+			ds4 = new DualShock4(ds[0],false);
 
+		foreach(var info in ds){
+			if((ds4 == null)||!Object.ReferenceEquals(info.Device,ds4.Device))
+				info.Dispose();
+		}
     }
+
+
 	
 	// Update is called once per frame
 	void Update () {
 
         float x = 0;
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            x -= m_HandSpeed;
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            x += m_HandSpeed;
-        }
+        //if (Input.GetKey(KeyCode.LeftArrow))
+        //{
+        //    x -= m_HandSpeed;
+        //}
+        //if (Input.GetKey(KeyCode.RightArrow))
+        //{
+        //    x += m_HandSpeed;
+        //}
+		//
+		//x = Input.GetAxisRaw("Move") * m_HandSpeed;
 
-		x = Input.GetAxisRaw("Move") * m_HandSpeed;
+		ds4.TryUpdate();
+
+		x = (float)ds4.Sensors[DualShock4Sensor.AccelerometerX] * -m_HandSpeed;
+		//x = m_HandSpeed;
+
+		//transform.position += new Vector3(1,0,0) * Input.GetAxis("Vertical3");
+
+		//System.BitConverter.ToInt16(_inpu
+
 
         transform.position = transform.position + new Vector3(x, 0, 0) * Time.deltaTime;
+
+
 
         switch (m_PlayerMode)
         {
