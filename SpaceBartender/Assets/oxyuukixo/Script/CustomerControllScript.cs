@@ -95,7 +95,9 @@ public class CustomerControllScript : MonoBehaviour {
                 int SpawnNum = SpaceNum[Random.Range(0, SpaceNum.Count)];       //リスポーンする席の番号
 
                 //客の生成
-				CustomerObject[SpawnNum] = (GameObject)Instantiate(CustomerType[Random.Range(0, CustomerType.Length)], SpawnPoiint[SpawnNum].transform.position, new Quaternion(0, 0, 0, 0));
+				CustomerObject[SpawnNum] = (GameObject)Instantiate(CustomerType[Random.Range(0, CustomerType.Length)]);
+				CustomerObject[SpawnNum].transform.position += SpawnPoiint[SpawnNum].transform.position;
+				CustomerObject[SpawnNum].transform.rotation = new Quaternion(0, 0, 0, 0);
             }
         }
     }

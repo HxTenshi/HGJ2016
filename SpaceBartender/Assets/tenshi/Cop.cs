@@ -22,7 +22,7 @@ public class Cop : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         m_Gauge = 0;
-        m_Water.transform.localScale = new Vector3(0.8f, 0, 0.8f);
+        m_Water.transform.localScale = new Vector3(0.0f, 0, 0.0f);
 		m_Filter=0;
 
     }
@@ -63,7 +63,11 @@ public class Cop : MonoBehaviour {
     {
 
         float y = m_Gauge / 3.0f;
-        m_Water.transform.localScale = new Vector3(0.8f, y, 0.8f);
+		if(y<=0){
+			m_Water.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+		}else{
+        	m_Water.transform.localScale = new Vector3(0.8f, y, 0.8f);
+		}
     }
 
 }
