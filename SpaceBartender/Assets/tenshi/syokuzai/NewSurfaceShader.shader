@@ -28,13 +28,25 @@
 
 		void vert(inout appdata v)
 		{
+
+
+			v.vertex.xyz = mul((float3x3)_Object2World,v.vertex.xyz);
+
 			float h = _Hineri * v.vertex.x;
+			//x
 			float3 x = float3(1, 0, 0);
 			float3 y = float3(0, cos(h), -sin(h));
 			float3 z = float3(0, sin(h), cos(h));
-			float3x3 rot = float3x3(x,y,z);
-			
+
+			//y
+			//float3 x = float3(cos(h), 0, sin(h));
+			//float3 y = float3(0, 1, 0);
+			//float3 z = float3(-sin(h),0, cos(h));
+
+			float3x3 rot = float3x3(x, y, z);
+
 			v.vertex.xyz = mul(rot, v.vertex.xyz);
+			v.vertex.xyz = mul((float3x3)_World2Object, v.vertex.xyz);
 
 			v.normal = mul(rot, v.normal);
 		}
