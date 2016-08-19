@@ -48,7 +48,6 @@ public class PlayerHand : MonoBehaviour {
 		var ds = DualShock4Info.Enumerate();
 		if(ds.Length>0)
 			ds4 = new DualShock4(ds[0],false);
-
 		foreach(var info in ds){
 			if((ds4 == null)||!Object.ReferenceEquals(info.Device,ds4.Device))
 				info.Dispose();
@@ -61,26 +60,29 @@ public class PlayerHand : MonoBehaviour {
 	void Update () {
 
         float x = 0;
-        //if (Input.GetKey(KeyCode.LeftArrow))
-        //{
-        //    x -= m_HandSpeed;
-        //}
-        //if (Input.GetKey(KeyCode.RightArrow))
-        //{
-        //    x += m_HandSpeed;
-        //}
 		//
 		//x = Input.GetAxisRaw("Move") * m_HandSpeed;
 
-		ds4.TryUpdate();
+		if(ds4 != null){
+			ds4.TryUpdate();
 
-		x = (float)ds4.Sensors[DualShock4Sensor.AccelerometerX] * -m_HandSpeed;
+			x = (float)ds4.Sensors[DualShock4Sensor.AccelerometerX] * -m_HandSpeed;
+		}
 		//x = m_HandSpeed;
 
 		//transform.position += new Vector3(1,0,0) * Input.GetAxis("Vertical3");
 
 		//System.BitConverter.ToInt16(_inpu
 
+
+		if (Input.GetKey(KeyCode.LeftArrow))
+		{
+			x -= m_HandSpeed * 10;
+		}
+		if (Input.GetKey(KeyCode.RightArrow))
+		{
+			x += m_HandSpeed * 10;
+		}
 
         transform.position = transform.position + new Vector3(x, 0, 0) * Time.deltaTime;
 
@@ -106,7 +108,8 @@ public class PlayerHand : MonoBehaviour {
     void CatchSyokuzai()
     {
 		
-		if (Input.GetAxisRaw("Select") != 0)
+		if (Input.GetAxisRaw("Select") != 0 ||
+			Input.GetKeyDown(KeyCode.Z))
         {
             if (m_PlayerHitSyokuzai.SelectSyokuzai)
             {
@@ -156,7 +159,9 @@ public class PlayerHand : MonoBehaviour {
 			pow +=dot;
 		}
 
-
+		if(Input.GetKeyDown(KeyCode.X)){
+		}
+			pow+=1.0f;
 		{
 			m_lastv2 = v2;
 			m_lastv3 = v3;

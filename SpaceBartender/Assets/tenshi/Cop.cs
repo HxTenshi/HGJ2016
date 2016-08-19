@@ -8,6 +8,11 @@ public class Cop : MonoBehaviour {
     GameObject m_Water;
 
     bool m_Max;
+	[SerializeField]
+	int m_CopID;
+
+	[SerializeField]
+	CustomerControllScript m_CustomerControllScript;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +24,9 @@ public class Cop : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	    if(m_Max || m_Gauge>=3.0f){
+			if(!m_Max){
+				m_CustomerControllScript.Drinling(m_CopID);
+			}
             m_Max = true;
             m_Gauge -= Time.deltaTime;
             m_Gauge = Mathf.Max(m_Gauge, 0);
