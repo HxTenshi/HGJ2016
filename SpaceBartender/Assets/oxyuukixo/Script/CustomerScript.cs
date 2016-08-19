@@ -9,6 +9,8 @@ public class CustomerScript : MonoBehaviour {
 
     private Animator anim;          //アニメーション
 
+	bool DrinkingFlag;
+
 	[SerializeField]
 	bool m_NG_Alien;
 	[SerializeField]
@@ -26,17 +28,24 @@ public class CustomerScript : MonoBehaviour {
         ElapsedTime = 0;
 
         anim = GetComponent<Animator>();
+
+		DrinkingFlag=false;
 	}
 
 	// Update is called once per frame
 	void Update () {
+		if(DrinkingFlag)return;
 
         if((ElapsedTime += Time.deltaTime) > RemoveTime)
         {
+			if(ElapsedTime> RemoveTime*2)
+			{
+				DestroyObject(this.gameObject);
+			}
             anim.SetBool("IsAngry", true);
-
-            Destroy(this.gameObject, 2);
-        }
+		}else{
+			anim.SetBool("IsAngry", false);
+		}
     }
 
     //帰るまでの時間を回復する処理
@@ -48,9 +57,16 @@ public class CustomerScript : MonoBehaviour {
         ElapsedTime -= time;
     }
 
+	//飲み物が完成した時の処理
+	public void Drip(){
+		ElapsedTime -= RemoveTime;
+		ElapsedTime = Mathf.Max(0,ElapsedTime);
+	}
+
     //飲み物が完成した時の処理
 	public void Drinking(int filter){
 
+		DrinkingFlag=true;
 		int i = 0;
 		i |= m_NG_Alien?1:0;
 		i |= m_NG_Human?2:0;
@@ -65,6 +81,7 @@ public class CustomerScript : MonoBehaviour {
 		}
 
         anim.SetBool("IsHappy", true);
+
 
 		Destroy(this.gameObject, 2);
     }

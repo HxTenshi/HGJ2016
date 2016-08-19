@@ -56,6 +56,14 @@ public class CustomerControllScript : MonoBehaviour {
         }
     }
 
+	public bool Drip(int id){
+		if (CustomerObject[id] != null)
+		{
+			CustomerObject[id].GetComponent<CustomerScript>().Drip();
+			return true;
+		}
+		return false;
+	}
 	public bool Drinling(int id,int filter){
 		if (CustomerObject[id] != null)
 		{

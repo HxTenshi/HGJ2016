@@ -55,6 +55,7 @@ public class Cop : MonoBehaviour {
         ren1.material.color += ren2.material.color/ m_Gauge;
         WaterScale();
 
+		if(m_CustomerControllScript!=null)m_CustomerControllScript.Drip(m_CopID);
 		Instantiate(m_WaterInSE);
     }
 
