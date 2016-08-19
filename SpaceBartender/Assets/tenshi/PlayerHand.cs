@@ -73,7 +73,7 @@ public class PlayerHand : MonoBehaviour {
 
     void CatchSyokuzai()
     {
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             if (m_PlayerHitSyokuzai.SelectSyokuzai)
             {
@@ -94,15 +94,18 @@ public class PlayerHand : MonoBehaviour {
     void Hineri()
     {
 
-        if (Input.GetKey(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             Syokuzai s = m_CatchSyokuzai.GetComponent<Syokuzai>();
             if(!s)return;
             s.Hineri();
-            m_CatchSyokuzai.transform.rotation *= new Quaternion(0,0,10 * Time.deltaTime,1);
+            //m_CatchSyokuzai.transform.rotation *= new Quaternion(10 * Time.deltaTime,0,0,1);
 
 
-            m_PlayerMode = PlayerMode.Hineri_SelectSyokuzai_Move;
+            if (s.IsBreak())
+            {
+                m_PlayerMode = PlayerMode.Hineri_SelectSyokuzai_Move;
+            }
         }
     }
 
