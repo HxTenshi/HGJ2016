@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class CustomerControllScript : MonoBehaviour {
 
     public Object[] CustomerType;       //客の種類
-    public Vector3[] SpawnPoiint;     //客が座る場所
+	public GameObject[] SpawnPoiint;     //客が座る場所
 
     private GameObject[] CustomerObject;          //客のオブジェクト
 
@@ -56,6 +56,15 @@ public class CustomerControllScript : MonoBehaviour {
         }
     }
 
+	public bool Drinling(int id){
+		if (CustomerObject[id] != null)
+		{
+			CustomerObject[id].GetComponent<CustomerScript>().Drinking();
+			return true;
+		}
+		return false;
+	}
+
     void Spawn()
     {
         //客の種類が1つ以上あったら
@@ -78,7 +87,7 @@ public class CustomerControllScript : MonoBehaviour {
                 int SpawnNum = SpaceNum[Random.Range(0, SpaceNum.Count)];       //リスポーンする席の番号
 
                 //客の生成
-                CustomerObject[SpawnNum] = (GameObject)Instantiate(CustomerType[Random.Range(0, CustomerType.Length)], SpawnPoiint[SpawnNum], new Quaternion(0, 0, 0, 0));
+				CustomerObject[SpawnNum] = (GameObject)Instantiate(CustomerType[Random.Range(0, CustomerType.Length)], SpawnPoiint[SpawnNum].transform.position, new Quaternion(0, 0, 0, 0));
             }
         }
     }
