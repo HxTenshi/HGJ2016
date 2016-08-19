@@ -22,9 +22,9 @@ public class Syokuzai : MonoBehaviour {
 	
 	}
 
-    public void Hineri()
+	public void Hineri(float power)
     {
-        m_BreakPower_Count += 1.0f;
+		m_BreakPower_Count += power;
 
 
         GetComponent<Renderer>().material.SetFloat("_Hineri", m_BreakPower_Count * 10);

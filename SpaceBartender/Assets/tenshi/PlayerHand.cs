@@ -21,6 +21,9 @@ public class PlayerHand : MonoBehaviour {
     float m_MoveTime;
     float m_MoveTimer;
 
+	Vector2 m_lastv2;
+	Vector2 m_lastv3;
+
     enum PlayerMode {
         SelectSyokuzai,
         SelectSyokuzai_Hineri_Move,
@@ -37,11 +40,13 @@ public class PlayerHand : MonoBehaviour {
         transform.position = m_KonbeaPoint.transform.position;
         m_MoveTimer = 0;
 
+		m_lastv2 = new Vector2(0,1);
+		m_lastv3 = new Vector2(0,1);
+
     }
 	
 	// Update is called once per frame
 	void Update () {
-
 
         float x = 0;
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -52,6 +57,9 @@ public class PlayerHand : MonoBehaviour {
         {
             x += m_HandSpeed;
         }
+
+		x = Input.GetAxisRaw("Move") * m_HandSpeed;
+
         transform.position = transform.position + new Vector3(x, 0, 0) * Time.deltaTime;
 
         switch (m_PlayerMode)
@@ -73,7 +81,8 @@ public class PlayerHand : MonoBehaviour {
 
     void CatchSyokuzai()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+		
+		if (Input.GetAxisRaw("Select") != 0)
         {
             if (m_PlayerHitSyokuzai.SelectSyokuzai)
             {
@@ -94,19 +103,64 @@ public class PlayerHand : MonoBehaviour {
     void Hineri()
     {
 
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            Syokuzai s = m_CatchSyokuzai.GetComponent<Syokuzai>();
-            if(!s)return;
-            s.Hineri();
-            //m_CatchSyokuzai.transform.rotation *= new Quaternion(10 * Time.deltaTime,0,0,1);
+		float _x = Input.GetAxis("Horizontal");
+		float _y = Input.GetAxis("Vertical");
+		float _x2 = Input.GetAxis("Horizontal2");
+		float _y2 = Input.GetAxis("Vertical2");
+
+		Vector2 v2 = new Vector2(_x,_y);
+		Vector2 v3 = new Vector2(_x2,_y2);
+
+		float pow = 0;
+
+		if(Vector2.Distance(new Vector2(0,0),v2) > 0.5f){
+
+			v2.Normalize();
+			float dot = Vector2.Dot(v2,m_lastv2);
+			dot -= 1;
+			dot = Mathf.Abs(dot);
+			dot = Mathf.Min(dot,0.5f);
+			pow +=dot;
+		}
+		if(Vector2.Distance(new Vector2(0,0),v3) > 0.5f){
+
+			v3.Normalize();
+			float dot = Vector2.Dot(v3,m_lastv3);
+			dot -= 1;
+			dot = Mathf.Abs(dot);
+			dot = Mathf.Min(dot,0.5f);
+			pow +=dot;
+		}
 
 
-            if (s.IsBreak())
-            {
-                m_PlayerMode = PlayerMode.Hineri_SelectSyokuzai_Move;
-            }
-        }
+		{
+			m_lastv2 = v2;
+			m_lastv3 = v3;
+
+			Syokuzai s = m_CatchSyokuzai.GetComponent<Syokuzai>();
+			if(!s)return;
+			s.Hineri(pow*0.5f);
+
+			if (s.IsBreak())
+			{
+				m_PlayerMode = PlayerMode.Hineri_SelectSyokuzai_Move;
+			}
+		}
+
+
+        //if (Input.GetKeyDown(KeyCode.X))
+        //{
+        //    Syokuzai s = m_CatchSyokuzai.GetComponent<Syokuzai>();
+        //    if(!s)return;
+        //    s.Hineri();
+        //    //m_CatchSyokuzai.transform.rotation *= new Quaternion(10 * Time.deltaTime,0,0,1);
+		//
+		//
+        //    if (s.IsBreak())
+        //    {
+        //        m_PlayerMode = PlayerMode.Hineri_SelectSyokuzai_Move;
+        //    }
+        //}
     }
 
     void Move()
