@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Squared.DualShock4;
 
 public class PlayerHand : MonoBehaviour {
@@ -25,6 +26,13 @@ public class PlayerHand : MonoBehaviour {
 	Vector2 m_lastv2;
 	Vector2 m_lastv3;
 
+
+	[SerializeField]
+	GameObject m_SEPlayer;
+	[SerializeField]
+	List<AudioClip> m_HineriSE = new List<AudioClip>();
+	float m_SE_Counter;
+
 	DualShock4 ds4;
 
     enum PlayerMode {
@@ -42,6 +50,7 @@ public class PlayerHand : MonoBehaviour {
         m_CatchSyokuzai = null;
         transform.position = m_KonbeaPoint.transform.position;
         m_MoveTimer = 0;
+		m_SE_Counter=0;
 
 		m_lastv2 = new Vector2(0,1);
 		m_lastv3 = new Vector2(0,1);
@@ -160,8 +169,14 @@ public class PlayerHand : MonoBehaviour {
 		}
 
 		if(Input.GetKeyDown(KeyCode.X)){
-		}
 			pow+=1.0f;
+		}
+		m_SE_Counter += pow;
+
+		if(m_SE_Counter>1.0f){
+			m_SE_Counter-=1.0f;
+			HineriSEPlay();
+		}
 		{
 			m_lastv2 = v2;
 			m_lastv3 = v3;
@@ -243,4 +258,15 @@ public class PlayerHand : MonoBehaviour {
         }
 
     }
+
+	void HineriSEPlay(){
+		if(m_HineriSE.Count==0)return;
+
+		int i = Random.Range(0, m_HineriSE.Count);
+		var se = Instantiate(m_HineriSE[i]);
+
+		var onj = Instantiate(m_SEPlayer);
+		onj.GetComponent<AudioSource>().clip = se;
+		onj.GetComponent<AudioSource>().Play();
+	}
 }

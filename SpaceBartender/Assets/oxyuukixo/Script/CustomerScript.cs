@@ -9,6 +9,17 @@ public class CustomerScript : MonoBehaviour {
 
     private Animator anim;          //アニメーション
 
+	[SerializeField]
+	bool m_NG_Alien;
+	[SerializeField]
+	bool m_NG_Human;
+	[SerializeField]
+	bool m_NG_Kemono;
+	[SerializeField]
+	bool m_NG_Gyojin;
+	[SerializeField]
+	bool m_NG_Robot;
+
     // Use this for initialization
     void Start () {
 
@@ -38,10 +49,23 @@ public class CustomerScript : MonoBehaviour {
     }
 
     //飲み物が完成した時の処理
-    public void Drinking(){
+	public void Drinking(int filter){
+
+		int i = 0;
+		i |= m_NG_Alien?1:0;
+		i |= m_NG_Human?2:0;
+		i |= m_NG_Kemono?4:0;
+		i |= m_NG_Gyojin?8:0;
+		i |= m_NG_Robot?16:0;
+
+		if((filter & i) != 0){
+			anim.SetBool("IsAngry", true);
+			Destroy(this.gameObject, 2);
+			return;
+		}
 
         anim.SetBool("IsHappy", true);
 
-        Destroy(this.gameObject, 2);
+		Destroy(this.gameObject, 2);
     }
 }

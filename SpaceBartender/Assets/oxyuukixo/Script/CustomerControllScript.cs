@@ -37,29 +37,29 @@ public class CustomerControllScript : MonoBehaviour {
         //
         if (Input.GetKeyDown(KeyCode.Alpha1) && CustomerObject[0] != null)
         {
-            CustomerObject[0].GetComponent<CustomerScript>().Drinking();
+            CustomerObject[0].GetComponent<CustomerScript>().Drinking(0);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2) && CustomerObject[1] != null)
         {
-            CustomerObject[1].GetComponent<CustomerScript>().Drinking();
+            CustomerObject[1].GetComponent<CustomerScript>().Drinking(0);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3) && CustomerObject[2] != null)
         {
-            CustomerObject[2].GetComponent<CustomerScript>().Drinking();
+            CustomerObject[2].GetComponent<CustomerScript>().Drinking(0);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha4) && CustomerObject[3] != null)
         {
-            CustomerObject[3].GetComponent<CustomerScript>().Drinking();
+            CustomerObject[3].GetComponent<CustomerScript>().Drinking(0);
         }
     }
 
-	public bool Drinling(int id){
+	public bool Drinling(int id,int filter){
 		if (CustomerObject[id] != null)
 		{
-			CustomerObject[id].GetComponent<CustomerScript>().Drinking();
+			CustomerObject[id].GetComponent<CustomerScript>().Drinking(filter);
 			return true;
 		}
 		return false;

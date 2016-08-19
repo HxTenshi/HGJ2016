@@ -6,8 +6,15 @@ public class Syokuzai : MonoBehaviour {
     [SerializeField]
     GameObject m_Juice;
 
+	enum SyokuzaiType{
+		Alien = 1,
+		Human = 2,
+		Kemono = 4,
+		Gyojin = 8,
+		Robot = 16,
+	}
 	[SerializeField]
-	int m_Type;
+	SyokuzaiType m_Type;
 
 	[SerializeField]
 	Color m_JuiceColor;
@@ -43,7 +50,9 @@ public class Syokuzai : MonoBehaviour {
             juice.transform.position = transform.position;
 
             var ren = gameObject.GetComponent<Renderer>();
-            juice.GetComponent<Juice>().ChangeMaterial(ren.material);
+			var j = juice.GetComponent<Juice>();
+			j.ChangeMaterial(m_JuiceColor);
+			j.SyokuzaiType = (int)m_Type;
 
             DestroyObject(gameObject);
         }
