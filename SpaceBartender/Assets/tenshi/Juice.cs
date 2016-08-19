@@ -13,6 +13,12 @@ public class Juice : MonoBehaviour {
 	
 	}
 
+    public void ChangeMaterial(Material material)
+    {
+        var mat = GetComponent<Renderer>();
+        mat.material = material;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         Cop cop = other.gameObject.GetComponent<Cop>();
