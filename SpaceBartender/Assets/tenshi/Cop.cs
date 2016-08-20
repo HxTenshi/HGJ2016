@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Cop : MonoBehaviour {
 
@@ -13,6 +14,12 @@ public class Cop : MonoBehaviour {
 
 	[SerializeField]
 	GameObject m_WaterInSE;
+
+
+	[SerializeField]
+	List<GameObject> m_CutIn;
+
+	string[] m_SyokuzaiNames = new string[3];
 
 	int m_Filter;
 
@@ -31,6 +38,9 @@ public class Cop : MonoBehaviour {
 	void Update () {
 	    if(m_Max || m_Gauge>=3.0f){
 			if(!m_Max){
+
+				CutInCheck();
+
 				if(m_CustomerControllScript!=null)m_CustomerControllScript.Drinling(m_CopID,m_Filter);
 				m_Filter=0;
 			}
@@ -47,6 +57,8 @@ public class Cop : MonoBehaviour {
 
     public void AddSyokuzai(Juice syokuzai)
     {
+		m_SyokuzaiNames[(int)m_Gauge] = syokuzai.SyokuzaiName;
+
         m_Gauge += 1;
 		m_Filter |= syokuzai.SyokuzaiType;
         var ren1 = m_Water.GetComponent<Renderer>();
@@ -67,7 +79,40 @@ public class Cop : MonoBehaviour {
 			m_Water.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
 		}else{
         	m_Water.transform.localScale = new Vector3(0.8f, y, 0.8f);
+			m_Water.transform.localPosition = new Vector3(0, 0.5f * y-0.5f, 0);
 		}
     }
+
+	void CutInCheck(){
+
+		string marimo = "marimo";
+		string Any = "Any";
+
+		string[,] Special = new string[1,3]{
+			{marimo,Any,Any},
+		};
+		for(int i=0;i<1;i++){
+			bool flag = true;
+			flag = flag&&Check(Special[i,0]);
+			flag = flag&&Check(Special[i,1]);
+			flag = flag&&Check(Special[i,2]);
+			if(flag){
+				Instantiate(m_CutIn[i]);
+				break;
+			}
+		}
+
+	}
+
+	bool Check(string s){
+		if(s=="Any")return true;
+		for(int i=0;i<3;i++){
+			if(s == m_SyokuzaiNames[i]){
+				m_SyokuzaiNames[i] = "";
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

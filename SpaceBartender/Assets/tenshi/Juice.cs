@@ -9,6 +9,11 @@ public class Juice : MonoBehaviour {
 		get {return m_SyokuzaiType;}
 		set {m_SyokuzaiType = value;}
 	}
+	string m_SyokuzaiName;
+	public string SyokuzaiName{
+		get {return m_SyokuzaiName;}
+		set {m_SyokuzaiName = value;}
+	}
 	// Use this for initialization
 	void Start () {
 	
