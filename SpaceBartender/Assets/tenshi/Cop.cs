@@ -9,7 +9,7 @@ public class Cop : MonoBehaviour {
     [SerializeField]
     GameObject m_Water;
 
-    //Game_Control gamecontrol;
+    Game_Control gamecontrol;
 
     bool m_Max;
 	[SerializeField]
@@ -29,16 +29,15 @@ public class Cop : MonoBehaviour {
 	[SerializeField]
 	CustomerControllScript m_CustomerControllScript;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start(){
         m_Gauge = 0;
         m_Water.transform.localScale = new Vector3(0.0f, 0, 0.0f);
-		m_Filter=0;
-        //gamecontrol = GameObject.Find("GameControl").GetComponent<Game_Control>();
+        m_Filter = 0;
     }
-	
-	// Update is called once per frame
-	void Update () {
+        // Update is called once per frame
+        void Update () {
+        gamecontrol = FindObjectOfType<Game_Control>();
 	    if(m_Max || m_Gauge>=3.0f){
 			if(!m_Max){
 
@@ -53,7 +52,7 @@ public class Cop : MonoBehaviour {
             WaterScale();
             if (m_Gauge <= 0.0f)
             {
-                //if (m_Max) gamecontrol.Add_score(50);
+                if (m_Max) gamecontrol.Add_score(50);
                 m_Max = false;
             }
         }

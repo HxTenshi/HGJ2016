@@ -13,12 +13,12 @@ public class Game_Control : MonoBehaviour {
 	}
 
     void Update() {
-        if (score > 600) state = 6;
-        else if (score > 500) state = 5;
-        else if (score > 400) state = 4;
-        else if (score > 300) state = 3;
-        else if (score > 200) state = 2;
-        else if (score > 100) state = 1;
+        if (score >= 600) state = 6;
+        else if (score >= 500) state = 5;
+        else if (score >= 400) state = 4;
+        else if (score >= 300) state = 3;
+        else if (score >= 200) state = 2;
+        else if (score >= 100) state = 1;
     }
 
     public void Add_score(int score)
