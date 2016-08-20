@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Syokuzai : MonoBehaviour {
 
@@ -16,16 +17,20 @@ public class Syokuzai : MonoBehaviour {
 	[SerializeField]
 	SyokuzaiType m_Type;
 
+	int m_SyokuzaiNum = 1;
+
 	[SerializeField]
 	Color m_JuiceColor;
 
     [SerializeField]
-    float m_BreakPower;
+	float m_BreakPower;
+	float m_BreakPower_Back;
     float m_BreakPower_Count;
     
     // Use this for initialization
     void Start () {
         m_BreakPower_Count = 0.0f;
+		m_BreakPower_Back = m_BreakPower;
 
     }
 	
@@ -33,6 +38,26 @@ public class Syokuzai : MonoBehaviour {
 	void Update () {
 	
 	}
+
+	public void AddSyokuzaiNum(int num){
+		
+		List<GameObject> objs = new List<GameObject>();
+		for(int i=0;i<num;i++){
+			objs.Add(Instantiate(gameObject));
+		}
+
+		float y = 0;
+		foreach(GameObject child in objs){
+			y+=0.25f;
+			child.transform.position += new Vector3(0,y,0);
+			m_SyokuzaiNum++;
+			child.transform.parent = gameObject.transform;
+
+			DestroyObject(child.GetComponent<Rigidbody>());
+			DestroyObject(child.GetComponent<BoxCollider>());
+		}
+	}
+
 
 	public void Hineri(float power)
     {
@@ -42,7 +67,7 @@ public class Syokuzai : MonoBehaviour {
 
 		GetComponent<Renderer>().material.SetFloat("_Hineri", hineri * 10);
 
-        if (m_BreakPower_Count >= m_BreakPower)
+		if (m_BreakPower_Count >= m_BreakPower_Back)
         {
             GetComponent<Renderer>().material.SetFloat("_Hineri", 0);
 
@@ -54,12 +79,31 @@ public class Syokuzai : MonoBehaviour {
 			j.ChangeMaterial(m_JuiceColor);
 			j.SyokuzaiType = (int)m_Type;
 
-            DestroyObject(gameObject);
+			m_SyokuzaiNum--;
+
+			if(m_SyokuzaiNum<=0){
+            	DestroyObject(gameObject);
+			}else{
+				m_BreakPower_Back += m_BreakPower;
+			}
         }
+
+		foreach(Transform child in transform){
+			child.gameObject.GetComponent<Syokuzai>().HineriOnly(power);
+		}
     }
+
+	public void HineriOnly(float power)
+	{
+		m_BreakPower_Count += power;
+
+		float hineri = m_BreakPower_Count / m_BreakPower;
+
+		GetComponent<Renderer>().material.SetFloat("_Hineri", hineri * 10);
+	}
 
     public bool IsBreak()
     {
-        return m_BreakPower_Count >= m_BreakPower;
+		return m_BreakPower_Count >= m_BreakPower_Back;
     }
 }

@@ -43,6 +43,17 @@ public class Konbea : MonoBehaviour
         var obj = Instantiate(m_SyokuzaiList[i]);
 
         obj.transform.position = m_EmitPoint.transform.position;
+
+		int num = 0;
+		int r = Random.Range(0, 3);
+		if(r==0){
+			num++;
+			r = Random.Range(0, 4);
+			if(r==0){
+				num++;
+			}
+		}
+		obj.GetComponent<Syokuzai>().AddSyokuzaiNum(num);
     }
 
     void OnCollisionStay(Collision collision)

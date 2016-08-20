@@ -19,6 +19,11 @@ public class PlayerHand : MonoBehaviour {
     [SerializeField]
     GameObject m_KonbeaPoint;
 
+	[SerializeField]
+	GameObject m_LimitPointL;
+	[SerializeField]
+	GameObject m_LimitPointR;
+
     [SerializeField]
     float m_MoveTime;
     float m_MoveTimer;
@@ -94,6 +99,10 @@ public class PlayerHand : MonoBehaviour {
 		}
 
         transform.position = transform.position + new Vector3(x, 0, 0) * Time.deltaTime;
+		x = transform.position.x;
+		x = Mathf.Max(x,m_LimitPointL.transform.position.x);
+		x = Mathf.Min(x,m_LimitPointR.transform.position.x);
+		transform.position = new Vector3(x,transform.position.y,transform.position.z);
 
 
 

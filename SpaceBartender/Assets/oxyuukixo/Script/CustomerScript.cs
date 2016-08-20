@@ -76,13 +76,13 @@ public class CustomerScript : MonoBehaviour {
 
 		if((filter & i) != 0){
 			anim.SetBool("IsAngry", true);
-			Destroy(this.gameObject, 2);
+			Destroy(this.gameObject, 4);
 			return;
 		}
 
         anim.SetBool("IsHappy", true);
 
 
-		Destroy(this.gameObject, 2);
+		Destroy(this.gameObject, 4);
     }
 }
