@@ -5,29 +5,29 @@ public class Light_Control : MonoBehaviour {
 
     private int old_state;
     private Game_Control game_control;
-    private Light child1;
-    private Light child2;
-    private Light child3;
-    private Light child4;
-    private Light child5;
-    private Light child6;
+    private LightMain child1;
+    private LightMain child2;
+    private LightMain child3;
+    private LightMain child4;
+    private LightMain child5;
+    private LightMain child6;
 
     // Use this for initialization
     void Start () {
         game_control = GameObject.Find("GameControl").GetComponent<Game_Control>();
-        child1 = gameObject.transform.Find("Light1").GetComponent<Light>();
-        child2 = gameObject.transform.Find("Light2").GetComponent<Light>();
-        child3 = gameObject.transform.Find("Light3").GetComponent<Light>();
-        child4 = gameObject.transform.Find("Light4").GetComponent<Light>();
-        child5 = gameObject.transform.Find("Light5").GetComponent<Light>();
-        child6 = gameObject.transform.Find("Light6").GetComponent<Light>();
-        old_state = game_control.Get();
+        child1 = gameObject.transform.Find("Light1").GetComponent<LightMain>();
+        child2 = gameObject.transform.Find("Light2").GetComponent<LightMain>();
+        child3 = gameObject.transform.Find("Light3").GetComponent<LightMain>();
+        child4 = gameObject.transform.Find("Light4").GetComponent<LightMain>();
+        child5 = gameObject.transform.Find("Light5").GetComponent<LightMain>();
+        child6 = gameObject.transform.Find("Light6").GetComponent<LightMain>();
+        old_state = game_control.Get_state();
     }
 
     //Update is called once per frame
     void Update()
     {
-        int state = game_control.Get();
+        int state = game_control.Get_state();
         if (state == old_state) return;
         switch (old_state)
         {

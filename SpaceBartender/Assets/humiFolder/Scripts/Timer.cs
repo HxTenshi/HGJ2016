@@ -18,13 +18,12 @@ public class Timer : MonoBehaviour {
 	void Update () {
         timer += Time.deltaTime;
         Set();
-        if(timer > time_max)
-        {
+        if(timer > time_max){
             timer = time_max;
         }
     }
 
    void Set(){
-        rect_transform.sizeDelta = new Vector2(230 * timer / time_max, 5);
+        rect_transform.sizeDelta = new Vector2(597 * timer / time_max, 20);
     }
 }

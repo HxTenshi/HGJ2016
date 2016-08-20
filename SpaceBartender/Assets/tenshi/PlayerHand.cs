@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using Squared.DualShock4;
 
 public class PlayerHand : MonoBehaviour {
 
@@ -21,6 +23,18 @@ public class PlayerHand : MonoBehaviour {
     float m_MoveTime;
     float m_MoveTimer;
 
+	Vector2 m_lastv2;
+	Vector2 m_lastv3;
+
+
+	[SerializeField]
+	GameObject m_SEPlayer;
+	[SerializeField]
+	List<AudioClip> m_HineriSE = new List<AudioClip>();
+	float m_SE_Counter;
+
+	DualShock4 ds4;
+
     enum PlayerMode {
         SelectSyokuzai,
         SelectSyokuzai_Hineri_Move,
@@ -36,23 +50,52 @@ public class PlayerHand : MonoBehaviour {
         m_CatchSyokuzai = null;
         transform.position = m_KonbeaPoint.transform.position;
         m_MoveTimer = 0;
+		m_SE_Counter=0;
 
+		m_lastv2 = new Vector2(0,1);
+		m_lastv3 = new Vector2(0,1);
+		var ds = DualShock4Info.Enumerate();
+		if(ds.Length>0)
+			ds4 = new DualShock4(ds[0],false);
+		foreach(var info in ds){
+			if((ds4 == null)||!Object.ReferenceEquals(info.Device,ds4.Device))
+				info.Dispose();
+		}
     }
+
+
 	
 	// Update is called once per frame
 	void Update () {
 
-
         float x = 0;
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            x -= m_HandSpeed;
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            x += m_HandSpeed;
-        }
+		//
+		//x = Input.GetAxisRaw("Move") * m_HandSpeed;
+
+		if(ds4 != null){
+			ds4.TryUpdate();
+
+			x = (float)ds4.Sensors[DualShock4Sensor.AccelerometerX] * -m_HandSpeed;
+		}
+		//x = m_HandSpeed;
+
+		//transform.position += new Vector3(1,0,0) * Input.GetAxis("Vertical3");
+
+		//System.BitConverter.ToInt16(_inpu
+
+
+		if (Input.GetKey(KeyCode.LeftArrow))
+		{
+			x -= m_HandSpeed * 10;
+		}
+		if (Input.GetKey(KeyCode.RightArrow))
+		{
+			x += m_HandSpeed * 10;
+		}
+
         transform.position = transform.position + new Vector3(x, 0, 0) * Time.deltaTime;
+
+
 
         switch (m_PlayerMode)
         {
@@ -73,7 +116,9 @@ public class PlayerHand : MonoBehaviour {
 
     void CatchSyokuzai()
     {
-        if (Input.GetKey(KeyCode.Z))
+		
+		if (Input.GetAxisRaw("Select") != 0 ||
+			Input.GetKeyDown(KeyCode.Z))
         {
             if (m_PlayerHitSyokuzai.SelectSyokuzai)
             {
@@ -94,16 +139,72 @@ public class PlayerHand : MonoBehaviour {
     void Hineri()
     {
 
-        if (Input.GetKey(KeyCode.X))
-        {
-            Syokuzai s = m_CatchSyokuzai.GetComponent<Syokuzai>();
-            if(!s)return;
-            s.Hineri();
-            m_CatchSyokuzai.transform.rotation *= new Quaternion(0,0,10 * Time.deltaTime,1);
+		float _x = Input.GetAxis("Horizontal");
+		float _y = Input.GetAxis("Vertical");
+		float _x2 = Input.GetAxis("Horizontal2");
+		float _y2 = Input.GetAxis("Vertical2");
+
+		Vector2 v2 = new Vector2(_x,_y);
+		Vector2 v3 = new Vector2(_x2,_y2);
+
+		float pow = 0;
+
+		if(Vector2.Distance(new Vector2(0,0),v2) > 0.5f){
+
+			v2.Normalize();
+			float dot = Vector2.Dot(v2,m_lastv2);
+			dot -= 1;
+			dot = Mathf.Abs(dot);
+			dot = Mathf.Min(dot,0.5f);
+			pow +=dot;
+		}
+		if(Vector2.Distance(new Vector2(0,0),v3) > 0.5f){
+
+			v3.Normalize();
+			float dot = Vector2.Dot(v3,m_lastv3);
+			dot -= 1;
+			dot = Mathf.Abs(dot);
+			dot = Mathf.Min(dot,0.5f);
+			pow +=dot;
+		}
+
+		if(Input.GetKeyDown(KeyCode.X)){
+			pow+=1.0f;
+		}
+		m_SE_Counter += pow;
+
+		if(m_SE_Counter>1.0f){
+			m_SE_Counter-=1.0f;
+			HineriSEPlay();
+		}
+		{
+			m_lastv2 = v2;
+			m_lastv3 = v3;
+
+			Syokuzai s = m_CatchSyokuzai.GetComponent<Syokuzai>();
+			if(!s)return;
+			s.Hineri(pow*0.5f);
+
+			if (s.IsBreak())
+			{
+				m_PlayerMode = PlayerMode.Hineri_SelectSyokuzai_Move;
+			}
+		}
 
 
-            m_PlayerMode = PlayerMode.Hineri_SelectSyokuzai_Move;
-        }
+        //if (Input.GetKeyDown(KeyCode.X))
+        //{
+        //    Syokuzai s = m_CatchSyokuzai.GetComponent<Syokuzai>();
+        //    if(!s)return;
+        //    s.Hineri();
+        //    //m_CatchSyokuzai.transform.rotation *= new Quaternion(10 * Time.deltaTime,0,0,1);
+		//
+		//
+        //    if (s.IsBreak())
+        //    {
+        //        m_PlayerMode = PlayerMode.Hineri_SelectSyokuzai_Move;
+        //    }
+        //}
     }
 
     void Move()
@@ -157,4 +258,15 @@ public class PlayerHand : MonoBehaviour {
         }
 
     }
+
+	void HineriSEPlay(){
+		if(m_HineriSE.Count==0)return;
+
+		int i = Random.Range(0, m_HineriSE.Count);
+		var se = Instantiate(m_HineriSE[i]);
+
+		var onj = Instantiate(m_SEPlayer);
+		onj.GetComponent<AudioSource>().clip = se;
+		onj.GetComponent<AudioSource>().Play();
+	}
 }
