@@ -13,13 +13,17 @@ public class Game_Control : MonoBehaviour {
 	}
 
     void Update() {
-        if (Input.GetButtonDown("Fire1")){
-            if (++state > state_max) state = state_max;
-            score += 10;
-        }
-        if (Input.GetButtonDown("Fire2")){
-                if (--state < 0) state = 0;
-        }
+        if (score > 600) state = 6;
+        else if (score > 500) state = 5;
+        else if (score > 400) state = 4;
+        else if (score > 300) state = 3;
+        else if (score > 200) state = 2;
+        else if (score > 100) state = 1;
+    }
+
+    public void Add_score(int score)
+    {
+        this.score += score;
     }
 
     public int Get_state() {
