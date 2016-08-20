@@ -78,6 +78,7 @@ public class Syokuzai : MonoBehaviour {
 			var j = juice.GetComponent<Juice>();
 			j.ChangeMaterial(m_JuiceColor);
 			j.SyokuzaiType = (int)m_Type;
+			j.SyokuzaiName = name;
 
 			m_SyokuzaiNum--;
 
