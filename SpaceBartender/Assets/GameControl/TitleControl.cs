@@ -11,7 +11,7 @@ public class TitleControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetButtonDown("Fire1")){
+		if (Input.GetButtonDown("Fire1")||Input.GetKeyDown(KeyCode.Z)){
             SceneManager.LoadSceneAsync("Main", LoadSceneMode.Single);
             SceneManager.LoadSceneAsync("humi", LoadSceneMode.Additive);
         }
