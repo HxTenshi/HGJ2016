@@ -17,7 +17,7 @@ public class Scrool : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (y <= 2160 - 1080) {
+        if (y <= 2160 - 1080+550) {
 
             y += 2160 / 600;
         }

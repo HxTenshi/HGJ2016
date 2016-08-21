@@ -1,0 +1,41 @@
+Initialize engine version: 5.3.0f4 (2524e04062b4)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: Intel(R) HD Graphics 4000 (ID=0x166)
+    Vendor:   Intel
+    VRAM:     128 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\DualShock4.dll (this message is harmless)
+Loading C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\DualShock4.dll into Unity Child Domain
+Platform assembly: C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\HidLibrary.dll (this message is harmless)
+Loading C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\HidLibrary.dll into Unity Child Domain
+- Completed reload, in  0.078 seconds
+Platform assembly: C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\tenshi\Desktop\Programming\NOW\HGJ2016\SpaceBartender\SpaceBartender_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.529402 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 2030 -> priority: 1 
+  Thread -> id: 200c -> priority: 1 
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 4.377191 ms
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 650.
+Total: 0.283089 ms (FindLiveObjects: 0.037631 ms CreateObjectMapping: 0.038486 ms MarkObjects: 0.194570 ms  DeleteObjects: 0.011545 ms)
+
+The referenced script on this Behaviour (Game Object 'Light2') is missing!
+ 
+(Filename:  Line: 1655)
+
